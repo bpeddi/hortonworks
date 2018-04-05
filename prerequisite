@@ -1,0 +1,11 @@
+#Most Linux platforms supported by transparent hugepages, 
+#which interacts poorly with Hadoop workloads and can seriously degrade performance.
+echo "echo never  > /sys/kernel/mm/redhat_transparent_hugepage/enabled" >> /etc/rc.local
+echo "echo never  > /sys/kernel/mm/redhat_transparent_hugepage/defrag" >> /etc/rc.local
+#Controls swapping of applications.
+echo "vm.swappiness = 10" >> /etc/sysctl.conf
+chkconfig  iptables off
+chkconfig ip6tables off
+#Security-Enhanced Linux (SELinux) enabled and in enforcing mode.
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+yum  -y  install ntp
