@@ -9,3 +9,5 @@ chkconfig ip6tables off
 #Security-Enhanced Linux (SELinux) enabled and in enforcing mode.
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 yum  -y  install ntp
+chkconfig ntpd on
+service ntpd start
