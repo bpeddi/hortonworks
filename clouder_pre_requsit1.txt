@@ -1,0 +1,212 @@
+#Most Linux platforms supported by CDH 5 include a feature called transparent hugepages, 
+#which interacts poorly with Hadoop workloads and can seriously degrade performance.
+echo "echo never  > /sys/kernel/mm/redhat_transparent_hugepage/enabled" >> /etc/rc.local
+echo "echo never  > /sys/kernel/mm/redhat_transparent_hugepage/defrag" >> /etc/rc.local
+#Controls swapping of applications.
+echo "vm.swappiness = 10" >> /etc/sysctl.conf
+chkconfig  iptables off
+chkconfig ip6tables off
+#Security-Enhanced Linux (SELinux) enabled and in enforcing mode.
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+yum  -y  install ntp
+chkconfig ntpd on
+
+
+https://archive.cloudera.com/cm5/repo-as-tarball/5.14.0/cm5.14.0-centos6.tar.gz
+
+vi /etc/yum.repos.d/cloudera-manager.repo
+
+[cloudera-manager]
+# Packages for Cloudera Manager, Version 5, on RedHat or CentOS 6 x86_64           	  
+name=Cloudera Manager
+baseurl=https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5/
+gpgkey =https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera    
+gpgcheck = 1
+
+
+2169 Zander Dr, Frisco , Tx 75034
+2142277528
+(214) 227-7528
+214-227-7528 
+13,61,664.00
+
+
+install httpd 
+wget http://archive.cloudera.com/cm5/repo-as-tarball/5.12.0/cm5.12.0-centos6.tar.gz
+untar into /var/www/html/
+ yum clean all
+ yum makecache
+[cloudera-manager]
+name=Cloudera Manager
+baseurl=http://ip-172-31-82-176.ec2.internal/cm/5.10
+gpgcheck=0
+
+yum install clouder-manager-scmserveer agent demon java etc.
+
+Installing using bin file 
+wget cm5/installr/5.10/coludera-manager-installer.bin 
+coludera-manager-installer.bin --skip_repo_package=1
+
+Setting up local repo 
+/etc/yum.repos.d/cloudera-manager.repo
+
+
+vi /etc/cloudera-scm-agent/config.ini  -- Change server server_host to master node 
+
+
+install kerboros 
+vi /etc/krb5.conf  -- Change KDC server 
+kdb5_util create -s 
+service krb5kdc start
+service kadmin start 
+chkconfig krb5kdc on
+chkconfig kadmin on
+ vi /var/kerberos/krb5kdc/kadm5.acl
+ kadmin.local -q "addprinc admin/admin"
+
+kadmin -p admin/admin@HADOOP.CON -- you can add prin using addprinc , listprincs 
+
+admin/admin@HADOOP.COM
+
+
+yum -y install krb5-server krb5-libs krb5-workstation
+
+centos_bala
+
+
+pvcreate /dev/xvda3
+vgextend VolGroup /dev/xvda3
+lvextend  -L+24.5GB /dev/VolGroup/lv_root
+resize2fs  /dev/VolGroup/lv_root
+fdisk -- toformat
+vgdisplay
+pvcreate /dev/xvda3
+vgextend   VolGroup  /dev/xvda3
+lvextend  -L+34GB /dev/VolGroup/lv_root
+resize2fs  /dev/VolGroup/lv_root
+
+wget http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.0.0/ambari.repo
+cp -f ambari.repo /etc/yum.repos.d/
+yum clean all
+yum makecache
+yum -y install ambari-agent.x86_64 ambari-server.x86_64
+yum -y install httpd
+yum -y install mysql-server mysql-connector-java
+chkconfig httpd on
+service  httpd start
+
+SET PASSWORD FOR 'ambari'@'%' = PASSWORD('password');
+SET PASSWORD FOR 'ambari'@'localhost' = PASSWORD('password');
+SET PASSWORD FOR 'ambari'@'ip-172-31-85-224.ec2.internal' = PASSWORD('password');
+
+Setup SQL SERVER Database 
+
+CREATE USER 'ambari'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'%';
+CREATE USER 'ambari'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'localhost';
+CREATE USER 'ambari'@'ip-172-31-85-224.ec2.internal' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'ip-172-31-85-224.ec2.internal';
+FLUSH PRIVILEGES;
+mysql -u ambari -p
+CREATE DATABASE ambari;
+USE ambari;
+SOURCE /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql;
+ambari-server setup
+
+
+CREATE DATABASE hive;
+USE hive;
+CREATE USER 'hive'@'%' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'%';
+CREATE USER 'ambari'@'localhost' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'localhost';
+CREATE USER 'ambari'@'ip-172-31-85-224.ec2.internal' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'ambari'@'ip-172-31-85-224.ec2.internal';
+FLUSH PRIVILEGES;
+
+
+CREATE DATABASE hive;
+USE hive;
+CREATE USER 'hive'@'%' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'hive'@'%';
+CREATE USER 'hive'@'localhost' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'hive'@'localhost';
+CREATE USER 'hive'@'ip-172-31-85-224.ec2.internal' IDENTIFIED BY 'hive';
+GRANT ALL PRIVILEGES ON *.* TO 'hive'@'ip-172-31-85-224.ec2.internal';
+FLUSH PRIVILEGES;
+
+ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
+
+http://archive.cloudera.com/cm5/repo-as-tarball/5.10.0/cm5.10.0-centos6.tar.gz
+
+
+hadoop fs -hetfact /user/hdfs
+hadoop fs -setfacl -m user:root:r-x /user/hdfs
+hadoop fs -getfact 
+hadoop fs -setfacl -x user:root:r-x /user/hdfs
+
+
+172.31.80.226 ip-172-31-80-226.ec2.internal master
+172.31.92.113 ip-172-31-92-113.ec2.internal node1
+172.31.89.172 ip-172-31-89-172.ec2.internal node2
+172.31.94.46  ip-172-31-94-46.ec2.internal node3
+
+victoria
+selva
+
+
+Counters .. Data Local Map task should be 100%
+hdfs fsck <file> blocks location 
+split min size default zero
+you can tune reduces 
+you can use compression codecs to improve 
+buckiting is partition b key. during CT use clustering by ( col) 20 buckerts. sa
+combine file import format
+
+hadoop has userspace ---maped to OS users -->user Quota -->name Quotas
+
+hdfs dfscommand 
+
+
+hive backup : 1. goto DR server 2. backup->pair 3.crate Schedule 
+
+Hive Disaster recovery -> Can be done from CM
+
+Java KeyStore KMS for the HDFS Service
+Enabling Java KeyStore KMS for the HDFS Service
+Go to the HDFS service.
+ sudo yum install openssl-devel
+Configuring Encryption Properties for the HDFS and NameNode
+Creating Encryption Zones
+$ sudo -u hbase hadoop key create <key_name>
+$ hadoop fs -mkdir /zone
+$ hdfs crypto -createZone -keyName <key_name> -path /zone
+$ sudo -u hdfs hdfs crypto -listZones 
+/zone    <key_name>
+sudo -u hdfs hadoop distcp /user/dir /user/enczone
+
+
+node , edge , flow 
+
+impala
+REFRESH reloads the metadata for the table from the metastore database
+Whenever you create, drop, or alter a table or other kind of object through Hive, the next time you switch back to the impala-shell interpreter, issue a one-time 
+INVALIDATE METADATA statement so that Impala recognizes the new or changed object.
+
+use external_partitions;
+alter table logs rename to logs_original;
+create external table logs (field1 string, field2 string, field3 string)
+  partitioned by (year string, month string, day string, host string)
+  row format delimited fields terminated by ','
+  location '/user/impala/data/logs';
+
+/usr/share/java/mysql-connector-java.jar
+
+hdfs dfs -setfacl -m user:hadoop:rw- /file
+hdfs dfs -setfacl -x user:hadoop /file
+hdfs dfs -setfacl -b /file
+hdfs dfs -setfacl -k /dir
+hdfs dfs -setfacl --set user::rw-,user:hadoop:rw-,group::r--,other::r-- /file
+hdfs dfs -setfacl -R -m user:hadoop:r-x /dir
+hdfs dfs -setfacl -m default:user:hadoop:r-x /dir
